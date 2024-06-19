@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../PythonFullStackFlask"
+		}
+	],
+	"settings": {
+		"github.copilot.chat.scopeSelection": true,
+		"editor.formatOnSave": true
+	}
+}
