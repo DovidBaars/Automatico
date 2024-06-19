@@ -7,7 +7,7 @@ const Home = async () => {
     const authSession = await auth();
     return (
         <div>
-            <h1>Home</h1>
+            <h1>Home Screen</h1>
             <p>Session: {authSession?.user?.email}</p>
             <SignOutButton />
             <SignInButton />
