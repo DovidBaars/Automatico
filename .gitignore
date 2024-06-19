@@ -1,0 +1,4 @@
+
+*.local
+/.next
+/node_modules

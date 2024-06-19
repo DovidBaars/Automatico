@@ -1,0 +1,20 @@
+{
+	"css.format.spaceAroundSelectorSeparator": true,
+	"eslint.lintTask.enable": true,
+	"eslint.format.enable": true,
+	"eslint.workingDirectories": ["./app"],
+	"eslint.lintTask.options": "",
+	"eslint.onIgnoredFiles": "warn",
+	"editor.defaultFoldingRangeProvider": "vscode.typescript-language-features",
+	"[javascript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	},
+	"editor.defaultFormatter": "vscode.typescript-language-features",
+	"markdown.preview.typographer": true,
+	"prettier.jsxSingleQuote": true,
+	"prettier.useTabs": true,
+	"prettier.singleQuote": true,
+	"[markdown]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
+}
