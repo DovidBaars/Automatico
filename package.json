@@ -7,12 +7,15 @@
 		"dev:serverInspect": "cross-env NODE_OPTIONS='--inspect' next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"vercel-build": "prisma generate && prisma migrate deploy && next build"
 	},
 	"dependencies": {
-		"@auth/firebase-adapter": "^2.2.0",
-		"firebase": "^10.12.2",
-		"firebase-admin": "^11.11.1",
+		"@auth/prisma-adapter": "^2.3.0",
+		"@neondatabase/serverless": "^0.9.3",
+		"@prisma/adapter-neon": "^5.15.1",
+		"@prisma/client": "^5.15.1",
+		"@vercel/postgres": "^0.8.0",
 		"next": "^14.2.4",
 		"next-auth": "^5.0.0-beta.19",
 		"react": "^18",
@@ -26,6 +29,7 @@
 		"eslint": "^8",
 		"eslint-config-next": "14.2.3",
 		"eslint-config-prettier": "^9.1.0",
+		"prisma": "^5.15.1",
 		"typescript": "^5"
 	}
 }

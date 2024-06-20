@@ -4,17 +4,19 @@ import Link from "next/link";
 import styles from "./navBar.module.css";
 import { usePathname } from 'next/navigation';
 import { STRINGS } from "@/constants/app";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 const Navbar = () => {
   const pathname = usePathname()
 
-  const navBarPages = Object.values(STRINGS.PAGES);
-  const addActiveClass = useCallback(((path: string) => {
-    return (
-      `${styles.link} ${pathname === path ? styles.active : ''}`
-    )
-  }), [pathname]);
+  const navBarPages = useMemo(() => (Object.values(STRINGS.PAGES)
+  ), [])
+
+  const addActiveClass = useCallback((path: string) =>
+  (
+    `${styles.link} ${pathname === path ? styles.active : ''}`
+  ), [pathname]
+  );
 
   return (
     <nav className={styles.navbar}>

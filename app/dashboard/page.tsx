@@ -10,13 +10,13 @@ const getTestsTableTests = async () => {
   return tests;
 };
 
-const Dashboard = async ({ params: { userId } }: { params: { userId: number } }) => {
+const Dashboard = async () => {
   const tests = await getTestsTableTests();
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to {STRINGS.TITLE}</h1>
-        <p className={styles.description}>{STRINGS.DESCRIPTION} User: {userId}</p>
+        <p className={styles.description}>{STRINGS.DESCRIPTION} User: { }</p>
       </main>
       <TestsTable tests={tests} />
     </div>

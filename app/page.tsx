@@ -8,7 +8,7 @@ const Home = async () => {
     return (
         <div>
             <h1>Home Screen</h1>
-            <p>Session: {authSession?.user?.email}</p>
+            <p>Session: {authSession?.user?.name}</p>
             <SignOutButton />
             <SignInButton />
         </div>

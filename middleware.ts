@@ -7,6 +7,12 @@ const protectedRoutes = Object.values(STRINGS.PAGES)
 	.map((page) => page.PATH);
 
 export default auth(async (req) => {
+	console.log(
+		'Auth middleware. Auth: %s, Pathname: %s, CallbackUrl: %s',
+		req.auth,
+		req.nextUrl.pathname,
+		req.nextUrl.searchParams.get('callbackUrl')
+	);
 	try {
 		if (!protectedRoutes.includes(req.nextUrl.pathname) || req.auth) return;
 		const newUrl = new URL(STRINGS.PAGES.HOME.PATH, req.nextUrl.origin);
@@ -17,3 +23,7 @@ export default auth(async (req) => {
 		// return NextResponse.redirect(new URL('/error', req.nextUrl.origin));
 	}
 });
+
+export const config = {
+	matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+};

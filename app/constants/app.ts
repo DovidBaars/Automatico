@@ -2,6 +2,11 @@ export const STRINGS = {
 	TITLE: 'Automatico',
 	DESCRIPTION: 'Test everything, anytime, anywhere.',
 	PAGES: {
+		DASHBOARD: {
+			NAME: 'Dashboard',
+			PATH: '/dashboard',
+			PROTECTED: true,
+		},
 		MOBILE_TEST: {
 			NAME: 'Mobile Test',
 			PATH: '/mobileTest',
