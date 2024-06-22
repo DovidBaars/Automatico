@@ -6,4 +6,4 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 const neon = new Pool({ connectionString: process.env.POSTGRES_PRISMA_URL });
 const adapter = new PrismaNeon(neon);
 const prisma = new PrismaClient({ adapter });
-export const authAdapter = PrismaAdapter(prisma);
+export const authDbAdapter = PrismaAdapter(prisma);

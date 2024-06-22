@@ -8,20 +8,16 @@ const protectedRoutes = Object.values(STRINGS.PAGES)
 
 export default auth(async (req) => {
 	console.log(
-		'Auth middleware. Auth: %s, Pathname: %s, CallbackUrl: %s',
-		req.auth,
+		'Auth middleware. Name: %s, Pathname: %s, CallbackUrl: %s',
+		req.auth?.user?.name,
 		req.nextUrl.pathname,
 		req.nextUrl.searchParams.get('callbackUrl')
 	);
-	try {
-		if (!protectedRoutes.includes(req.nextUrl.pathname) || req.auth) return;
-		const newUrl = new URL(STRINGS.PAGES.HOME.PATH, req.nextUrl.origin);
-		newUrl.searchParams.set('callbackUrl', req.nextUrl.pathname);
-		return NextResponse.redirect(newUrl);
-	} catch (error) {
-		console.error('Error in auth middleware:', error);
-		// return NextResponse.redirect(new URL('/error', req.nextUrl.origin));
-	}
+
+	if (!protectedRoutes.includes(req.nextUrl.pathname) || req.auth) return;
+	const newUrl = new URL(STRINGS.PAGES.HOME.PATH, req.nextUrl.origin);
+	newUrl.searchParams.set('callbackUrl', req.nextUrl.pathname);
+	return NextResponse.redirect(newUrl);
 });
 
 export const config = {

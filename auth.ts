@@ -1,10 +1,10 @@
 import NextAuth, { type NextAuthConfig } from 'next-auth';
-import { authAdapter } from './auth.adapter';
+import { authDbAdapter } from './auth.db.adapter';
 import { authProvider } from './auth.provider';
 
 const authConfig: NextAuthConfig = {
 	providers: authProvider,
-	adapter: authAdapter,
+	adapter: authDbAdapter,
 	secret: process.env.AUTH_SECRET,
 	session: { strategy: 'jwt' },
 	callbacks: {
@@ -19,6 +19,7 @@ const authConfig: NextAuthConfig = {
 			return session;
 		},
 	},
+	debug: process.env.NODE_ENV === 'development',
 };
 
 export const { auth, handlers, signIn, signOut } = NextAuth(authConfig);
