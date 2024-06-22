@@ -19,6 +19,8 @@
 		"@prisma/adapter-neon": "^5.15.1",
 		"@prisma/client": "^5.15.1",
 		"@vercel/postgres": "^0.8.0",
+		"firebase": "^10.12.2",
+		"firebase-admin": "^12.2.0",
 		"next": "^14.2.4",
 		"next-auth": "^5.0.0-beta.19",
 		"react": "^18",

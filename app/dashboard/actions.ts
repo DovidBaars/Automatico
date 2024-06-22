@@ -1,15 +1,27 @@
 'use server';
 
+import { getDocs, collection, DocumentData } from 'firebase/firestore';
 import { revalidateTag } from 'next/cache';
+import { Test } from './interface';
+import { TESTS_COLLECTION } from '@/constants/firebase';
+import { auth } from '@/auth';
+import { db } from '@/firebase';
 
 export const getTestData = async () => {
-	console.log('getting tests');
 	try {
-		const res = await fetch('http://127.0.0.1:5000/tests', {
-			next: { tags: ['testData'] },
-		});
-		const data = await res.json();
-		return data;
+		const userId = (await auth())?.user?.id;
+		console.log('userId:', userId);
+		if (!userId) throw new Error('User not authenticated');
+		const collectionRef = collection(
+			db,
+			TESTS_COLLECTION.name,
+			userId,
+			TESTS_COLLECTION.subName
+		);
+		const documents = await getDocs(collectionRef);
+		const data: DocumentData[] = documents.docs.map((doc) => doc.data());
+		console.log('data:', data);
+		return data as Test[];
 	} catch (error) {
 		console.error('Error fetching tests:', error);
 		return [];

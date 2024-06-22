@@ -23,7 +23,8 @@
 		"baseUrl": "./app",
 		"paths": {
 			"@/*": ["./*"],
-			"@/auth": ["../auth"]
+			"@/auth": ["../auth"],
+			"@/firebase": ["../firebaseClient"]
 		}
 	},
 	"include": [

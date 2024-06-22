@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import React from 'react';
 import styles from './testsTable.module.css';
-import { runTest, deleteTest } from './testsTable.actions';
+import { runTest, deleteTest } from '../actions';
 import { HOME_TESTS_TABLE } from '@/constants/app';
-import { Test } from './testsTable.interface';
+import { Test } from '../interface';
 
-const TestTable = ({ tests }: { tests: Test[] }) => {
+const TestsTable = ({ tests }: { tests: Test[] }) => {
   const { HEIGHT: tableHeight, WIDTH: tableWidth } = HOME_TESTS_TABLE;
 
   return (
@@ -45,4 +45,4 @@ const TestTable = ({ tests }: { tests: Test[] }) => {
   );
 };
 
-export default TestTable;
+export default TestsTable;

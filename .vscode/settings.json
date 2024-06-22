@@ -17,7 +17,12 @@
 	"[markdown]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"cSpell.words": ["Automatico", "Firestore", "neondatabase"],
+	"cSpell.words": [
+		"Automatico",
+		"Firestore",
+		"neondatabase",
+		"pythonfullstackflask"
+	],
 	"[prisma]": {
 		"editor.defaultFormatter": "Prisma.prisma"
 	}
