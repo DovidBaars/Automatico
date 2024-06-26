@@ -24,7 +24,7 @@ export const getTestData = async () => {
 		return data as Test[];
 	} catch (error) {
 		console.error('Error fetching tests:', error);
-		return [];
+		throw error;
 	}
 };
 

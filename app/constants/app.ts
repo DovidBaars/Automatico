@@ -17,8 +17,3 @@ export const STRINGS = {
 		HOME: { NAME: 'Home', PATH: '/', PROTECTED: false },
 	},
 };
-
-export const HOME_TESTS_TABLE = {
-	HEIGHT: '75%',
-	WIDTH: '87%',
-};

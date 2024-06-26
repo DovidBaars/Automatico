@@ -1,10 +1,14 @@
     .table {
     margin: 3% 0;
     border-collapse: collapse;
-    background-color: #ffffff;
+    background-color: #11110d;
     box-shadow: 0px 0px 32px rgba(121, 119, 236, 0.555);
     border-radius: 15px;
-    overflow: hidden;
+  width: 100%; /* Table takes the full width of the dashboard */
+  height: auto; /* Height adjusts to content */
+  max-height: 100%; /* Ensures table does not exceed dashboard */
+  overflow-y: auto; /* Enables vertical scrolling within the table */
+
   }
   
   .table th, .table td {
@@ -20,8 +24,7 @@
   .table tr:nth-child(even) {
     background-color: #b073c277;
   }
-  
-  
+
   .editBtn, .runBtn, .deleteBtn {
     padding: 8px 12px;
     margin: 5px;

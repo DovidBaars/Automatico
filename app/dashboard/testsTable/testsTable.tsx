@@ -4,14 +4,11 @@ import Link from 'next/link';
 import React from 'react';
 import styles from './testsTable.module.css';
 import { runTest, deleteTest } from '../actions';
-import { HOME_TESTS_TABLE } from '@/constants/app';
 import { Test } from '../interface';
 
 const TestsTable = ({ tests }: { tests: Test[] }) => {
-  const { HEIGHT: tableHeight, WIDTH: tableWidth } = HOME_TESTS_TABLE;
-
   return (
-    <table className={styles.table} style={{ height: tableHeight, width: tableWidth }}>
+    <table border={1} className={styles.table}>
       <thead>
         <tr>
           {['Type', 'Name', 'Edit', 'Run', 'Delete'].map((column, index) => (<th key={index}>{column}</th>))}
