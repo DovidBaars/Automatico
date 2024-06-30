@@ -13,6 +13,9 @@
 		"prisma:introspect": "npx dotenv -e .env.local -- npx prisma db pull",
 		"prisma:generate": "npx dotenv -e .env.local -- npx prisma generate"
 	},
+	"prisma": {
+		"schema": "./db/prisma/schema.prisma"
+	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.3.0",
 		"@neondatabase/serverless": "^0.9.3",
@@ -38,7 +41,7 @@
 		"eslint": "^8",
 		"eslint-config-next": "14.2.3",
 		"eslint-config-prettier": "^9.1.0",
-		"prisma": "^5.15.1",
+		"prisma": "^5.16.1",
 		"typescript": "^5.5.2"
 	}
 }

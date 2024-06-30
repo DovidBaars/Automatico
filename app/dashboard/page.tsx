@@ -2,12 +2,13 @@
 
 import styles from './page.module.css';
 import { STRINGS } from '@/constants/app';
-import { getTestData } from './actions';
+import { getTestData } from '@/services/testService';
 import TestsTable from './testsTable/testsTable';
 import MagicMenu from '@/components/magicMenu/magicMenu';
 import { useEffect, useState } from 'react';
 import { Test } from './interface';
 import useDraggable from '@/components/useDraggable/useDraggable';
+import { createTestTests } from '../../db/prisma/test';
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -22,17 +23,18 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getTestData();
-        setTests(data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+    // const fetchData = async () => {
+    //   try {
+    //     const data = await getTestData();
+    //     setTests(data);
+    //   } catch (error) {
+    //     setError(error);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+    // fetchData();
+    createTestTests();
   }, []);
 
 
@@ -43,7 +45,7 @@ const Dashboard = () => {
         <p className={styles.description}>{STRINGS.DESCRIPTION}</p>
       </main>
       {DraggableMagicMenu}
-      <TestsTable tests={tests} />
+      {/* <TestsTable tests={tests} /> */}
     </div>
   );
 };

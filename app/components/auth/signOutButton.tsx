@@ -1,9 +1,13 @@
-import { signOutAction } from "./auth.actions"
+import { signOut } from "@/services/authService";
 
 const SignOutButton = () => {
+    const handleSignOut = async () => {
+        'use server'
+        await signOut()
+    }
     return (
         <form
-            action={signOutAction}
+            action={handleSignOut}
         >
             <button type="submit">Sign Out</button>
         </form>

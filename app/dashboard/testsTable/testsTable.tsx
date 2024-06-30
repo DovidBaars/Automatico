@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React from 'react';
 import styles from './testsTable.module.css';
-import { runTest, deleteTest } from '../actions';
+import { runTest, deleteTest } from '@/services/testService';
 import { Test } from '../interface';
 
 const TestsTable = ({ tests }: { tests: Test[] }) => {

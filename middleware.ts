@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { STRINGS } from '@/constants/app';
-import { auth } from '@/auth';
+import { auth } from '@/services/authService';
 
 const protectedRoutes = Object.values(STRINGS.PAGES)
 	.filter((page) => page.PROTECTED)
