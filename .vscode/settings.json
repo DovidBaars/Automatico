@@ -2,7 +2,6 @@
 	"css.format.spaceAroundSelectorSeparator": true,
 	"eslint.lintTask.enable": true,
 	"eslint.format.enable": true,
-	"eslint.workingDirectories": ["./app"],
 	"eslint.lintTask.options": "",
 	"eslint.onIgnoredFiles": "warn",
 	"editor.defaultFoldingRangeProvider": "vscode.typescript-language-features",

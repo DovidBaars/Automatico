@@ -1,14 +1,15 @@
 'use client';
 
-import styles from './page.module.css';
 import { STRINGS } from '@/constants/app';
-import { getTestData } from '@/services/testService';
 import TestsTable from './testsTable/testsTable';
 import MagicMenu from '@/components/magicMenu/magicMenu';
 import { useEffect, useState } from 'react';
-import { Test } from './interface';
 import useDraggable from '@/components/useDraggable/useDraggable';
-import { createTestTests } from '../../db/prisma/test';
+import { TestService } from '@/services/testService';
+import { Test } from '@prisma/client';
+import styles from './page.module.css'; // Import the styles module
+import { AuthService } from '@/services/authService';
+
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -23,18 +24,17 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const data = await getTestData();
-    //     setTests(data);
-    //   } catch (error) {
-    //     setError(error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // fetchData();
-    createTestTests();
+    const fetchData = async () => {
+      try {
+        const data = await TestService.getAllTests();
+        setTests(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
 

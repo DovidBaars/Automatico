@@ -10,20 +10,26 @@ export const authConfig: NextAuthConfig = {
 	callbacks: {
 		async jwt({ token, user, account }) {
 			if (account && user) {
-				token.userId = user.id;
-				token.email = user.email || token.email;
-				token.provider = account.provider;
+				return {
+					...token,
+					userId: user.id,
+					email: user.email,
+				};
 			}
 			return token;
 		},
 		async session({ session, token }) {
-			if (token && session.user) {
-				session.user.id = token.userId as string;
-				session.user.email = token.email as string;
-				session.provider = token.provider as string;
-			}
-			return session;
+			return {
+				...session,
+				user: {
+					...session.user,
+					id: token.userId as string,
+				},
+			};
 		},
 	},
-	debug: process.env.NODE_ENV === 'development',
+	jwt: {
+		maxAge: 60 * 60 * 24 * 30, // 30 days
+	},
+	// debug: process.env.NODE_ENV === 'development',
 };
