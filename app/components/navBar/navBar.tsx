@@ -5,6 +5,7 @@ import styles from "./navBar.module.css";
 import { usePathname } from 'next/navigation';
 import { STRINGS } from "@/constants/app";
 import { useCallback, useMemo } from "react";
+import { Route } from "next";
 
 const Navbar = () => {
   const pathname = usePathname()
@@ -21,7 +22,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       {navBarPages.map(({ NAME, PATH }) => (
-        <Link key={PATH} className={addActiveClass(PATH)} href={PATH}>{NAME}</Link>
+        <Link key={PATH} className={addActiveClass(PATH)} href={PATH as Route}>{NAME}</Link>
       ))}
     </nav>
   );

@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import React from 'react';
 import styles from './testsTable.module.css';
-import { runTest, deleteTest } from '@/services/testService';
-import { Test } from '../interface';
+import { Test } from '@prisma/client';
+import { deleteTest, runTest } from '@/services/testService';
 
 const TestsTable = ({ tests }: { tests: Test[] }) => {
   return (
@@ -18,22 +18,22 @@ const TestsTable = ({ tests }: { tests: Test[] }) => {
         {tests.map((test, index) => (
           <tr key={index}>
             <td>Web Test</td>
-            <td>{test.testName}</td>
+            <td>{test.name}</td>
             <td>
               <Link href={
                 {
                   pathname: '/webTemplates/editTest',
-                  query: { testName: test.testName }
+                  query: { testName: test.name }
                 }
               }>
                 <button type='button' className={styles.editBtn}>Edit</button>
               </Link>
             </td>
             <td>
-              <button type='button' className={styles.runBtn} onClick={() => runTest(test.testName)}>Run</button>
+              <button type='button' className={styles.runBtn} onClick={() => runTest(test.name)}>Run</button>
             </td>
             <td>
-              <button type='button' className={styles.deleteBtn} onClick={() => deleteTest(test.testName)}>Delete</button>
+              <button type='button' className={styles.deleteBtn} onClick={() => deleteTest(test.name)}>Delete</button>
             </td>
           </tr>
         ))}

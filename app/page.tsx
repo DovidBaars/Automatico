@@ -1,10 +1,10 @@
 'use server';
 
 import { SignOutButton, SignInButton } from "@/components/auth";
-import { getCurrentUser } from "./services/userService";
+import { getUserName } from "./services/authService";
 
 const Home = async () => {
-    const userName = (await getCurrentUser())?.name
+    const userName = await getUserName()
     return (
         <div>
             <h1>Home Screen</h1>

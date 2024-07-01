@@ -1,118 +1,122 @@
 'use server';
 
-import { getCurrentUser } from './userService';
-import { prismaClient } from '../../db/db.adapter';
-import { revalidateTag } from 'next/cache';
-import { Test, TestType, StepType, HttpMethod } from '@prisma/client';
+import { unstable_cache, revalidateTag } from 'next/cache';
+import { Prisma, Test, Step } from '@prisma/client';
+import { getUserId } from './authService';
+import { getAllByUserId, deleteOne } from '@/repositories/testRepository';
+import { authPost } from './authFetchService';
 
-const validateTestName = (testName: string) =>
-	testName && testName.match(/^[a-zA-Z0-9_]+$/) !== null;
-
-async function getUserId() {
-	const user = await getCurrentUser();
-	if (!user?.id) throw new Error('User not authenticated');
-	return user.id;
+interface TestResult {
+	status: 'success' | 'failure';
+	message: string;
 }
 
-export async function getTestData(): Promise<Test[]> {
+export const runTest = async (
+	testId: string,
+	signal?: AbortSignal
+): Promise<TestResult> => {
 	try {
-		const userId = await getUserId();
-		const tests = await prismaClient.test.findMany({
-			where: { userId },
-			include: { steps: true },
-		});
-		return tests;
-	} catch (error) {
-		console.error('Error fetching tests:', error);
-		throw error;
-	}
-}
-
-export async function runTest(testId: string) {
-	if (!validateTestName(testId)) {
-		throw new Error('Invalid test name');
-	}
-
-	try {
-		// Here you would implement the logic to run the test
-		// For now, we'll just log it
-		console.log('Running test:', testId);
-		// You might want to update the test status in the database here
+		const response = await authPost(
+			`http://127.0.0.1:8000/tests/:testId/run`,
+			null,
+			{
+				pathParams: { testId },
+				signal,
+			}
+		);
+		const data = await response.json();
+		console.log('Test run result:', data);
+		return data;
 	} catch (error) {
 		console.error('Error running test:', error);
-		throw error;
+		if (error instanceof Error) {
+			if (error.name === 'AbortError') {
+				return { status: 'failure', message: 'Test run cancelled' };
+			}
+			return { status: 'failure', message: error.message };
+		}
+		return { status: 'failure', message: 'An unexpected error occurred' };
 	}
-}
+};
 
-export async function deleteTest(testId: string) {
-	if (!validateTestName(testId)) {
-		throw new Error('Invalid test name');
-	}
+// public async getTestById(
+// 	testId: string
+// ): Promise<(Test & { steps: Step[] }) | null> {
+// 	const getCachedTestMetadata = unstable_cache(
+// 		async () => getById(testId),
+// 		[`test-${testId}`],
+// 		{ revalidate: 60 * 5 }
+// 	);
 
-	try {
-		const userId = await getUserId();
-		await prismaClient.test.delete({
-			where: { id: testId, userId },
-		});
-		revalidateTag('testData');
-	} catch (error) {
-		console.error('Error deleting test:', error);
-		throw error;
-	}
-}
+// 	const getLatestResults = unstable_cache(
+// 		async () => getLatestResultsForTest(testId),
+// 		[`test-results-${testId}`],
+// 		{ revalidate: 60 * 3 }
+// 	);
 
-export async function addTest(testData: {
-	name: string;
-	description?: string;
-	type: TestType;
-	baseUrl: string;
-	steps: {
-		order: number;
-		description: string;
-		type: StepType;
-		xpath: string;
-		userInput?: string;
-		httpMethod?: HttpMethod;
-		queryParams?: any;
-		bodyParams?: any;
-		headers?: any;
-	}[];
-}) {
-	try {
-		const userId = await getUserId();
-		const newTest = await prismaClient.test.create({
-			data: {
-				...testData,
-				userId,
-				steps: {
-					create: testData.steps,
-				},
-			},
-			include: { steps: true },
-		});
-		revalidateTag('testData');
-		return newTest;
-	} catch (error) {
-		console.error('Error adding test:', error);
-		throw error;
-	}
-}
+// 	const [test, latestResults] = await Promise.all([
+// 		getCachedTestMetadata(),
+// 		getLatestResults(),
+// 	]);
 
-export async function updateTest(
-	testId: string,
-	testData: Partial<Omit<Test, 'id' | 'userId' | 'createdAt' | 'updatedAt'>>
-) {
-	try {
-		const userId = await getUserId();
-		const updatedTest = await prismaClient.test.update({
-			where: { id: testId, userId },
-			data: testData,
-			include: { steps: true },
-		});
-		revalidateTag('testData');
-		return updatedTest;
-	} catch (error) {
-		console.error('Error updating test:', error);
-		throw error;
-	}
-}
+// 	if (!test) return null;
+
+// 	return {
+// 		...test,
+// 		steps: test.steps.map((step) => ({
+// 			...step,
+// 			results: latestResults.filter((result) => result.stepId === step.id),
+// 		})),
+// 	};
+// }
+
+export const getAllTests = async (): Promise<Test[]> => {
+	console.log('TS GET ALL TESTS');
+	const userId = await getUserId();
+	console.log('TS GET ALL TESTS - userId:', userId);
+	const getCachedTests = unstable_cache(
+		async () => getAllByUserId(userId),
+		[`all-tests-${userId}`],
+		{ revalidate: 60 * 10 }
+	);
+
+	return getCachedTests();
+};
+
+// public async createTest(
+// 	data: Omit<Prisma.TestCreateInput, 'user'> & { userId: string }
+// ): Promise<Test> {
+// 	const newTest = await .create(data);
+// 	revalidateTag(`test-${newTest.id}`);
+// 	revalidateTag(`all-tests-${data.userId}`);
+// 	return newTest;
+// }
+
+// public async updateTest(
+// 	id: string,
+// 	data: Prisma.TestUpdateInput
+// ): Promise<Test> {
+// 	const updatedTest = await .update(id, data);
+// 	revalidateTag(`test-${id}`);
+// 	revalidateTag(`all-tests-${updatedTest.userId}`);
+
+// 	return updatedTest;
+// }
+
+export const deleteTest = async (id: string): Promise<void> => {
+	const userId = await getUserId();
+	await deleteOne(id);
+	revalidateTag(`test-${id}`);
+	revalidateTag(`all-tests-${userId}`);
+};
+
+// public async updateTestResults(
+// 	testId: string,
+// 	stepData: Omit<Prisma.StepCreateInput, 'test'>,
+// 	userId: string
+// ): Promise<void> {
+// 	await .upsertStepResult(testId, stepData);
+// 	revalidateTag(`test-results-${testId}`);
+// 	revalidateTag(`all-tests-${userId}`);
+// }
+// }

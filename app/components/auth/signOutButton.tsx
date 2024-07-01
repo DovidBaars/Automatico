@@ -1,4 +1,4 @@
-import { signOut } from "@/services/authService";
+import { signOut } from "auth/auth";
 
 const SignOutButton = () => {
     const handleSignOut = async () => {

@@ -1,4 +1,4 @@
-import { signIn } from '@/services/authService';
+import { signIn } from "auth/auth"
 
 const SignInButton = () => {
     const handleSignIn = async () => {

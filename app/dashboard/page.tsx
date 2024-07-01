@@ -1,14 +1,14 @@
 'use client';
 
-import styles from './page.module.css';
 import { STRINGS } from '@/constants/app';
-import { getTestData } from '@/services/testService';
 import TestsTable from './testsTable/testsTable';
 import MagicMenu from '@/components/magicMenu/magicMenu';
 import { useEffect, useState } from 'react';
-import { Test } from './interface';
 import useDraggable from '@/components/useDraggable/useDraggable';
-import { createTestTests } from '../../db/prisma/test';
+import { getAllTests } from '@/services/testService';
+import { Test } from '@prisma/client';
+import styles from './page.module.css';
+
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -23,19 +23,23 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const data = await getTestData();
-    //     setTests(data);
-    //   } catch (error) {
-    //     setError(error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // fetchData();
-    createTestTests();
+    const fetchData = async () => {
+      try {
+        console.log('Fetching tests...');
+        const data = await getAllTests();
+        setTests(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log('loading: ', loading, 'error: ', error, 'tests: ', tests.length)
+  }, [loading, error, tests]);
 
 
   return (
@@ -45,7 +49,7 @@ const Dashboard = () => {
         <p className={styles.description}>{STRINGS.DESCRIPTION}</p>
       </main>
       {DraggableMagicMenu}
-      {/* <TestsTable tests={tests} /> */}
+      <TestsTable tests={tests} />
     </div>
   );
 };
