@@ -18,10 +18,13 @@
 	},
 	"cSpell.words": [
 		"Automatico",
+		"clsx",
 		"Firestore",
 		"laag",
+		"mantine",
 		"neondatabase",
-		"pythonfullstackflask"
+		"pythonfullstackflask",
+		"tabler"
 	],
 	"[prisma]": {
 		"editor.defaultFormatter": "Prisma.prisma"

@@ -32,18 +32,18 @@ export const getAllByUserId = async (
 	}
 };
 
-// async create(
-// 	data: Omit<Prisma.TestCreateInput, 'user'> & { userId: string }
-// ): Promise<TestWithSteps> {
-// 	const { userId, ...testData } = data;
-// 	return prismaClient.test.create({
-// 		data: {
-// 			...testData,
-// 			user: { connect: { id: userId } },
-// 		},
-// 		include: { steps: true },
-// 	});
-// },
+export const createOne = async (
+	data: Omit<Prisma.TestCreateInput, 'user'> & { userId: string }
+): Promise<TestWithSteps> => {
+	const { userId, ...testData } = data;
+	return prismaClient.test.create({
+		data: {
+			...testData,
+			user: { connect: { id: userId } },
+		},
+		include: { steps: true },
+	});
+};
 
 // async update(
 // 	id: string,

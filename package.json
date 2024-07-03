@@ -18,9 +18,12 @@
 	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.3.0",
+		"@mantine/core": "^7.11.1",
+		"@mantine/hooks": "^7.11.1",
 		"@neondatabase/serverless": "^0.9.3",
 		"@prisma/adapter-neon": "^5.15.1",
 		"@prisma/client": "^5.15.1",
+		"@tabler/icons-react": "^3.7.0",
 		"@vercel/postgres": "^0.8.0",
 		"firebase": "^10.12.2",
 		"firebase-admin": "^12.2.0",
@@ -41,6 +44,9 @@
 		"eslint": "^8",
 		"eslint-config-next": "14.2.3",
 		"eslint-config-prettier": "^9.1.0",
+		"postcss": "^8.4.39",
+		"postcss-preset-mantine": "^1.15.0",
+		"postcss-simple-vars": "^7.0.1",
 		"prisma": "^5.16.1",
 		"typescript": "^5.5.2"
 	}

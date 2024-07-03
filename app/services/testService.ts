@@ -1,9 +1,13 @@
 'use server';
 
-import { unstable_cache, revalidateTag } from 'next/cache';
-import { Prisma, Test, Step } from '@prisma/client';
+import { unstable_cache, revalidateTag, revalidatePath } from 'next/cache';
+import { Prisma, Test } from '@prisma/client';
 import { getUserId } from './authService';
-import { getAllByUserId, deleteOne } from '@/repositories/testRepository';
+import {
+	getAllByUserId,
+	deleteOne,
+	createOne,
+} from '@/repositories/testRepository';
 import { authPost } from './authFetchService';
 
 interface TestResult {
@@ -70,10 +74,13 @@ export const runTest = async (
 // 	};
 // }
 
-export const getAllTests = async (): Promise<Test[]> => {
+export const getAllTests = async (forceReload = false): Promise<Test[]> => {
 	console.log('TS GET ALL TESTS');
 	const userId = await getUserId();
 	console.log('TS GET ALL TESTS - userId:', userId);
+	if (forceReload) {
+		console.log('TS GET ALL TESTS - force reload');
+	}
 	const getCachedTests = unstable_cache(
 		async () => getAllByUserId(userId),
 		[`all-tests-${userId}`],
@@ -83,14 +90,16 @@ export const getAllTests = async (): Promise<Test[]> => {
 	return getCachedTests();
 };
 
-// public async createTest(
-// 	data: Omit<Prisma.TestCreateInput, 'user'> & { userId: string }
-// ): Promise<Test> {
-// 	const newTest = await .create(data);
-// 	revalidateTag(`test-${newTest.id}`);
-// 	revalidateTag(`all-tests-${data.userId}`);
-// 	return newTest;
-// }
+export const createTest = async (
+	data: Omit<Prisma.TestCreateInput, 'user'> & { userId: string }
+): Promise<Test> => {
+	const newTest = await createOne(data);
+	revalidateTag(`test-${newTest.id}`);
+	revalidateTag(`all-tests-${data.userId}`);
+	// this is the only one having an effect - investigate
+	revalidatePath('/dashboard');
+	return newTest;
+};
 
 // public async updateTest(
 // 	id: string,

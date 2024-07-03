@@ -1,31 +1,45 @@
 'use client';
 
-import Link from "next/link";
-import styles from "./navBar.module.css";
-import { usePathname } from 'next/navigation';
-import { STRINGS } from "@/constants/app";
-import { useCallback, useMemo } from "react";
-import { Route } from "next";
+import { Group, Code, rem, Text, UnstyledButton, Box, ThemeIcon, Divider } from '@mantine/core';
+import {
+  IconGauge,
+} from '@tabler/icons-react';
+import { AutomaticoLogo } from './logo';
+import classes from './navBar.module.css';
+import Link from 'next/link';
+import { Route } from 'next';
+import { STRINGS } from '@/constants/app';
 
-const Navbar = () => {
-  const pathname = usePathname()
-
-  const navBarPages = useMemo(() => (Object.values(STRINGS.PAGES)
-  ), [])
-
-  const addActiveClass = useCallback((path: string) =>
-  (
-    `${styles.link} ${pathname === path ? styles.active : ''}`
-  ), [pathname]
-  );
-
+export function NavBar() {
   return (
-    <nav className={styles.navbar}>
-      {navBarPages.map(({ NAME, PATH }) => (
-        <Link key={PATH} className={addActiveClass(PATH)} href={PATH as Route}>{NAME}</Link>
-      ))}
+    <nav className={classes.navbar}>
+
+      <Link href={STRINGS.PAGES.HOME.PATH as Route} className={classes.header} >
+        <AutomaticoLogo style={{ width: rem(120) }} />
+      </Link>
+
+
+      <Divider className={classes.divider} />
+
+      <Group className={classes.links}>
+
+        <UnstyledButton className={classes.link} component={Link} href={STRINGS.PAGES.DASHBOARD.PATH as Route}>
+          <Box style={{ display: 'flex', alignItems: 'center' }}>
+            <ThemeIcon variant="light" size={30}>
+              <IconGauge style={{ width: rem(18), height: rem(18) }} />
+            </ThemeIcon>
+            <Text ml={'md'}>
+              {STRINGS.PAGES.DASHBOARD.NAME}
+            </Text>
+          </Box>
+        </UnstyledButton>
+
+      </Group>
+
+      <Divider className={classes.divider} />
+
+      <Code mt={'md'} mr={'md'} fw={700}>v0.0.2</Code>
+
     </nav>
   );
-};
-
-export default Navbar;
+}
