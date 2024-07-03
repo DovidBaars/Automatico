@@ -1,21 +1,22 @@
-'use server';
-
+import React from 'react';
 import { AsideBar } from "@/components/asideBar/asideBar";
 import { AppShellAside, AppShellMain } from "@mantine/core";
 
-const DashboardLayout = ({ children }) => {
+type DashboardLayoutProps = {
+    children: React.ReactNode;
+};
 
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     return (
         <>
-            <AppShellAside >
+            <AppShellAside>
                 <AsideBar />
             </AppShellAside>
             <AppShellMain>
                 {children}
             </AppShellMain>
-
         </>
-    )
+    );
 };
 
 export default DashboardLayout;

@@ -15,7 +15,7 @@ export function AsideBar() {
 
     const handleAddTest = async () => {
         console.log('Adding test:', { name: testName, description: testDescription });
-        const test: Omit<Prisma.TestCreateInput, 'user'> & { userId: string } = { name: testName, description: testDescription, type: TestType[testType.toUpperCase()], baseUrl: 'test', userId: await getUserId() };
+        const test: Omit<Prisma.TestCreateInput, 'user'> & { userId: string } = { name: testName, description: testDescription, type: testType.toUpperCase() as TestType, baseUrl: 'test', userId: await getUserId() };
         try {
             const newTest = await createTest(test)
             console.log('New test:', newTest);

@@ -1,12 +1,11 @@
 import { Fira_Code, Open_Sans, Roboto } from "next/font/google";
-import { AppShell, AppShellAside, AppShellMain, AppShellNavbar, ColorSchemeScript, createTheme, MantineProvider } from '@mantine/core';
+import { AppShell, AppShellNavbar, ColorSchemeScript, createTheme, MantineProvider } from '@mantine/core';
 import { STRINGS } from "./constants/app";
 
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
 import { NavBar } from "./components/navBar/navBar";
-import { usePathname } from "next/navigation";
 
 
 

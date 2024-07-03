@@ -31,5 +31,5 @@ export const authConfig: NextAuthConfig = {
 	jwt: {
 		maxAge: 60 * 60 * 24 * 30, // 30 days
 	},
-	// debug: process.env.NODE_ENV === 'development',
+	debug: process.env.NODE_ENV === 'development',
 };

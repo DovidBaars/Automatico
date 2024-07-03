@@ -23,10 +23,41 @@
 		"laag",
 		"mantine",
 		"neondatabase",
+		"nosniff",
 		"pythonfullstackflask",
 		"tabler"
 	],
 	"[prisma]": {
 		"editor.defaultFormatter": "Prisma.prisma"
-	}
+	},
+	"github.copilot.chat.scopeSelection": true,
+	"editor.formatOnSave": true,
+	"sqltools.connections": [
+		{
+			"pgOptions": {
+				"ssl": {
+					"rejectUnauthorized": true
+				}
+			},
+			"previewLimit": 50,
+			"server": "localhost",
+			"driver": "PostgreSQL",
+			"connectString": "postgres://default:hGjKng6pYX7P@ep-lingering-bread-a45schpv-pooler.us-east-1.aws.neon.tech/verceldb",
+			"name": "Remote Session DB"
+		}
+	],
+	"black-formatter.cwd": "${fileDirname}",
+	"flake8.cwd": "${fileDirname}",
+	"isort.check": true,
+	"typescript.tsdk": "Automatico-Fullstack\\node_modules\\typescript\\lib",
+	"emmet.includeLanguages": {
+		"postcss": "css"
+	},
+	"cssVariables.lookupFiles": [
+		"**/*.css",
+		"**/*.scss",
+		"**/*.sass",
+		"**/*.less",
+		"node_modules/@mantine/core/styles.css"
+	]
 }

@@ -1,7 +1,7 @@
 'use server';
 
 import { Prisma, Test, Step, Result } from '@prisma/client';
-import { prismaClient } from '../../db/db.adapter';
+import { prisma as prismaClient } from 'db/db.adapter';
 import { ResultArg } from '@prisma/client/runtime/library';
 
 type TestWithSteps = Test & { steps: Step[] };

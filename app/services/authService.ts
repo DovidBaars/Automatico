@@ -28,7 +28,7 @@ export const getUserName = async () => {
 	const session = await auth();
 	if (!session?.user?.name) {
 		console.error('Error getting user name. No user name.');
-		throw new Error('No authenticated user');
+		return '';
 	}
 	return session.user.name;
 };
