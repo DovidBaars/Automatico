@@ -5,14 +5,17 @@
 	"scripts": {
 		"dev": "next dev",
 		"dev:serverInspect": "cross-env NODE_OPTIONS='--inspect' next dev",
-		"build": "next build",
+		"build": "prisma generate && next build",
 		"start": "next start",
 		"lint": "next lint",
 		"vercel:build:dev": "npx dotenv -e .env.local -- npx prisma generate && prisma migrate deploy && next build",
 		"prisma:migrate:deploy": "npx dotenv -e .env.local -- npx prisma migrate deploy",
+		"prisma:db:push": "npx dotenv -e .env.local -- npx prisma db push",
 		"prisma:migrate:dev": "npx dotenv -e .env.local -- npx prisma migrate dev",
 		"prisma:introspect": "npx dotenv -e .env.local -- npx prisma db pull",
-		"prisma:generate": "npx dotenv -e .env.local -- npx prisma generate"
+		"prisma:generate": "npx dotenv -e .env.local -- npx prisma generate",
+		"vercel:deploy": "npx vercel deploy",
+		"vercel:env:pull": "vercel env pull .env.local"
 	},
 	"prisma": {
 		"schema": "./db/prisma/schema.prisma"
@@ -46,7 +49,7 @@
 		"postcss": "^8.4.39",
 		"postcss-preset-mantine": "^1.15.0",
 		"postcss-simple-vars": "^7.0.1",
-		"prisma": "^5.16.1",
+		"prisma": "^5.15.1",
 		"typescript": "^5.5.2"
 	}
 }
