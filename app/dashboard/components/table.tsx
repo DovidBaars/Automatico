@@ -2,87 +2,25 @@
 
 import cx from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
-import { Table, ScrollArea, Checkbox, rem, TextInput, keys, UnstyledButton, Group, Text, Center, LoadingOverlay, Stack, Box, Button } from '@mantine/core';
+import { Table, ScrollArea, Checkbox, rem, TextInput, Group, Text, LoadingOverlay, Stack, Box, Button } from '@mantine/core';
 import classes from './table.module.css';
 import { Test } from '@prisma/client';
-import { IconSelector, IconChevronDown, IconChevronUp, IconSearch, IconReload } from '@tabler/icons-react';
-import { getAllTests } from '@/services/testService';
-import { revalidatePath } from 'next/cache';
+import { IconSearch, IconReload, IconRun, IconGlass } from '@tabler/icons-react';
+import { getAllTests, getTestById, runTest } from '@/services/testService';
+import SortedThComponent from './sortedTh';
+import { sortData } from '../util';
 
-type StringTypedTest = Record<keyof Test, string>;
+export type StringTypedTest = Record<keyof Test, string>;
 
-interface ThProps {
-    children: React.ReactNode;
-    reversed: boolean;
-    sorted: boolean;
-    onSort(): void;
-}
-
-function Th({ children, reversed, sorted, onSort }: ThProps) {
-    const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
-    return (
-        <Table.Th className={classes.th}>
-            <UnstyledButton onClick={onSort} className={classes.control}>
-                <Group justify="space-between">
-                    <Text fw={500} fz="sm">
-                        {children}
-                    </Text>
-                    <Center className={classes.icon}>
-                        <Icon style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                    </Center>
-                </Group>
-            </UnstyledButton>
-        </Table.Th>
-    );
-}
-
-function filterData(data: StringTypedTest[], search: string) {
-    const query = search.toLowerCase().trim();
-    return data.filter((item) =>
-        keys(data[0]).some((key) => typeof item[key] === 'string' ? item[key].toLowerCase().includes(query) : false)
-    );
-}
-
-function sortData(
-    data: Test[],
-    payload: { sortBy: keyof Test | null; reversed: boolean; search: string }
-) {
-    const stringVerifiedData = data.map((item) => {
-        return keys(item).reduce((acc, key) => {
-            if (typeof item[key] === 'string') {
-                acc[key] = item[key];
-            }
-
-            return acc;
-        }, {} as StringTypedTest);
-
-    })
-    const { sortBy } = payload;
-
-    if (!sortBy) {
-        return filterData(stringVerifiedData, payload.search);
-    }
-
-    return filterData(
-        [...stringVerifiedData].sort((a, b) => {
-            if (payload.reversed) {
-                return b[sortBy].localeCompare(a[sortBy]);
-            }
-
-            return a[sortBy].localeCompare(b[sortBy]);
-        }),
-        payload.search
-    );
-}
-
-export function TestTable() {
+export default function TestTable() {
     const [scrolled, setScrolled] = useState(false);
-    const [selection, setSelection] = useState(['1']);
+    const [selection, setSelection] = useState<Test['id'][]>([]);
     const [search, setSearch] = useState('');
     const [sortedData, setSortedData] = useState<Test[] | StringTypedTest[]>([]);
     const [sortBy, setSortBy] = useState<keyof Test | null>(null);
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
     const [unsortedData, setUnsortedData] = useState<Test[]>([]);
+    const [loading, setLoading] = useState(false)
 
     const fetchData = useCallback(async (forceReload = false) => {
         const data = await getAllTests(forceReload);
@@ -95,13 +33,26 @@ export function TestTable() {
     }, [fetchData]);
 
     const handleReload = () => {
+        console.log('Data:', unsortedData[0].id);
         fetchData(true);
     }
 
-    const toggleRow = (id: string) =>
+    const handleRun = async () => {
+        await runTest(selection[0]);
+    }
+
+    const handleView = async () => {
+        const testId = selection[0];
+        const test = await getTestById(testId);
+        console.log('Viewing test. id: ', testId, ' -- ', test);
+    }
+
+    const toggleRow = (id: Test['id']) => {
+        console.log(id);
         setSelection((current) =>
             current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
-        );
+        )
+    }
     const toggleAll = () =>
         setSelection((current) => (current.length === sortData.length ? [] : sortedData.map((item) => item.id)));
 
@@ -142,20 +93,20 @@ export function TestTable() {
                         indeterminate={selection.length > 0 && selection.length !== sortData.length}
                     />
                 </Table.Th>
-                <Th
+                <SortedThComponent
                     sorted={sortBy === 'id'}
                     reversed={reverseSortDirection}
                     onSort={() => setSorting('id')}
                 >
                     Id
-                </Th>
-                <Th
+                </SortedThComponent>
+                <SortedThComponent
                     sorted={sortBy === 'name'}
                     reversed={reverseSortDirection}
                     onSort={() => setSorting('name')}
                 >
                     Name
-                </Th>
+                </SortedThComponent>
             </Table.Tr>
         </Table.Thead>
     )
@@ -178,6 +129,20 @@ export function TestTable() {
                 >
                     Reload
                 </Button>
+                <Button
+                    onClick={handleRun}
+                    variant="light"
+                    leftSection={<IconRun style={{ width: rem(16), height: rem(16) }} />}
+                >
+                    Run
+                </Button>
+                <Button
+                    onClick={handleView}
+                    variant="light"
+                    leftSection={<IconGlass style={{ width: rem(16), height: rem(16) }} />}
+                >
+                    View
+                </Button>
             </Group>
         </Box>
     )
@@ -186,7 +151,7 @@ export function TestTable() {
         <Stack h="100vh">
             {searchHeader}
             <ScrollArea style={{ flex: 1 }} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
-                <LoadingOverlay visible={unsortedData.length === 0} />
+                <LoadingOverlay visible={loading} />
                 <Table miw={700} horizontalSpacing="md" verticalSpacing="xs" layout="fixed">
                     {sortHeader}
                     <Table.Tbody>

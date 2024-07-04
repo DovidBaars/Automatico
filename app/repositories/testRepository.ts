@@ -6,16 +6,16 @@ import { ResultArg } from '@prisma/client/runtime/library';
 
 type TestWithSteps = Test & { steps: Step[] };
 
-// async getById(id: string): Promise<TestWithSteps | null> {
-// 	return prismaClient.test.findUnique({
-// 		where: { id },
-// 		include: {
-// 			steps: {
-// 				orderBy: { order: 'asc' },
-// 			},
-// 		},
-// 	});
-// },
+export const getById = async (id: string): Promise<TestWithSteps | null> => {
+	return prismaClient.test.findUnique({
+		where: { id },
+		include: {
+			steps: {
+				orderBy: { order: 'asc' },
+			},
+		},
+	});
+};
 
 export const getAllByUserId = async (
 	userId: string

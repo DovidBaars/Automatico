@@ -7,6 +7,7 @@ import {
 	getAllByUserId,
 	deleteOne,
 	createOne,
+	getById,
 } from '@/repositories/testRepository';
 import { authPost } from './authFetchService';
 
@@ -43,36 +44,37 @@ export const runTest = async (
 	}
 };
 
-// public async getTestById(
-// 	testId: string
-// ): Promise<(Test & { steps: Step[] }) | null> {
-// 	const getCachedTestMetadata = unstable_cache(
-// 		async () => getById(testId),
-// 		[`test-${testId}`],
-// 		{ revalidate: 60 * 5 }
-// 	);
+export const getTestById = async (testId: string): Promise<Test | null> => {
+	const test = await getById(testId);
+	return test;
 
-// 	const getLatestResults = unstable_cache(
-// 		async () => getLatestResultsForTest(testId),
-// 		[`test-results-${testId}`],
-// 		{ revalidate: 60 * 3 }
-// 	);
+	// const getCachedTestMetadata = unstable_cache(
+	// 	async () => getById(testId),
+	// 	[`test-${testId}`],
+	// 	{ revalidate: 60 * 5 }
+	// );
 
-// 	const [test, latestResults] = await Promise.all([
-// 		getCachedTestMetadata(),
-// 		getLatestResults(),
-// 	]);
+	// const getLatestResults = unstable_cache(
+	// 	async () => getLatestResultsForTest(testId),
+	// 	[`test-results-${testId}`],
+	// 	{ revalidate: 60 * 3 }
+	// );
 
-// 	if (!test) return null;
+	// const [test, latestResults] = await Promise.all([
+	// 	getCachedTestMetadata(),
+	// 	getLatestResults(),
+	// ]);
 
-// 	return {
-// 		...test,
-// 		steps: test.steps.map((step) => ({
-// 			...step,
-// 			results: latestResults.filter((result) => result.stepId === step.id),
-// 		})),
-// 	};
-// }
+	// 	if (!test) return null;
+
+	// 	return {
+	// 		...test,
+	// 		steps: test.steps.map((step) => ({
+	// 			...step,
+	// 			results: latestResults.filter((result) => result.stepId === step.id),
+	// 		})),
+	// 	};
+};
 
 export const getAllTests = async (forceReload = false): Promise<Test[]> => {
 	console.log('TS GET ALL TESTS');

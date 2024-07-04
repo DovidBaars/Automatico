@@ -12,10 +12,11 @@ export function AsideBar() {
     const [testType, setTestType] = useState('Web');
     const [testName, setTestName] = useState('');
     const [testDescription, setTestDescription] = useState('');
+    const [baseUrl, setBaseUrl] = useState('');
 
     const handleAddTest = async () => {
         console.log('Adding test:', { name: testName, description: testDescription });
-        const test: Omit<Prisma.TestCreateInput, 'user'> & { userId: string } = { name: testName, description: testDescription, type: testType.toUpperCase() as TestType, baseUrl: 'test', userId: await getUserId() };
+        const test: Omit<Prisma.TestCreateInput, 'user'> & { userId: string } = { name: testName, description: testDescription, type: testType.toUpperCase() as TestType, baseUrl: baseUrl, userId: await getUserId() };
         try {
             const newTest = await createTest(test)
             console.log('New test:', newTest);
@@ -54,6 +55,13 @@ export function AsideBar() {
                             value={testDescription}
                             onChange={(event) => setTestDescription(event.currentTarget.value)}
                             placeholder="Enter test description"
+                            className={classes.input}
+                        />
+                        <TextInput
+                            label="Base URL"
+                            value={baseUrl}
+                            onChange={(event) => setBaseUrl(event.currentTarget.value)}
+                            placeholder="Enter Base Url"
                             className={classes.input}
                         />
                         <Button onClick={handleAddTest} className={classes.button}>Add Test</Button>

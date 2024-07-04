@@ -1,6 +1,6 @@
 'use server';
 
-import { TestTable } from './table';
+import TestTable from './components/table';
 
 const Dashboard = () => {
   return (
