@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters", "postgresqlExtensions"]
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -80,7 +80,6 @@ model Step {
   results     Result[]
   test        Test       @relation(fields: [testId], references: [id])
 
-  // @@assert(type == StepType.INPUT && userInput != null, "User input is required when step type is INPUT")
   @@unique([testId, order])
 }
 

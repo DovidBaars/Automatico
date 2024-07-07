@@ -3,7 +3,8 @@
 import { auth } from 'auth/auth';
 import { SignJWT } from 'jose';
 
-const generateToken = async (payload: any): Promise<string> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const generateToken = (payload: any): Promise<string> => {
 	const iat = Math.floor(Date.now() / 1000);
 	const exp = iat + 60 * 60;
 

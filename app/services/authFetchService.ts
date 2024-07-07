@@ -6,7 +6,7 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 interface FetchOptions extends RequestInit {
 	method?: HttpMethod;
-	body?: any;
+	body?: BodyInit;
 	params?: Record<string, string>;
 	pathParams?: Record<string, string>;
 }
@@ -80,13 +80,13 @@ export const authGet = async (
 
 export const authPost = async (
 	url: string,
-	body: any,
+	body: FetchOptions['body'],
 	options?: Omit<FetchOptions, 'method' | 'body'>
 ) => await authFetch(url, { ...options, method: 'POST', body });
 
 export const authPut = async (
 	url: string,
-	body: any,
+	body: FetchOptions['body'],
 	options?: Omit<FetchOptions, 'method' | 'body'>
 ) => await authFetch(url, { ...options, method: 'PUT', body });
 
@@ -97,6 +97,6 @@ export const authDelete = async (
 
 export const authPatch = async (
 	url: string,
-	body: any,
+	body: FetchOptions['body'],
 	options?: Omit<FetchOptions, 'method' | 'body'>
 ) => await authFetch(url, { ...options, method: 'PATCH', body });

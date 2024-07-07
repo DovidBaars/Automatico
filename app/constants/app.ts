@@ -17,3 +17,6 @@ export const STRINGS = {
 		HOME: { NAME: 'Home', PATH: '/', PROTECTED: false },
 	},
 };
+
+export const FOOTER_HEIGHT = 200;
+export const ASIDE_WIDTH = 300;

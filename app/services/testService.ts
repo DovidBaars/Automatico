@@ -8,8 +8,10 @@ import {
 	deleteOne,
 	createOne,
 	getById,
+	deleteMany,
 } from '@/repositories/testRepository';
 import { authPost } from './authFetchService';
+import { TestWithSteps } from 'app/providers/testProvider';
 
 interface TestResult {
 	status: 'success' | 'failure';
@@ -23,7 +25,7 @@ export const runTest = async (
 	try {
 		const response = await authPost(
 			`http://127.0.0.1:8000/tests/:testId/run`,
-			null,
+			undefined,
 			{
 				pathParams: { testId },
 				signal,
@@ -76,15 +78,10 @@ export const getTestById = async (testId: string): Promise<Test | null> => {
 	// 	};
 };
 
-export const getAllTests = async (forceReload = false): Promise<Test[]> => {
-	console.log('TS GET ALL TESTS');
+export const getAllTests = async (): Promise<TestWithSteps[]> => {
 	const userId = await getUserId();
-	console.log('TS GET ALL TESTS - userId:', userId);
-	if (forceReload) {
-		console.log('TS GET ALL TESTS - force reload');
-	}
 	const getCachedTests = unstable_cache(
-		async () => getAllByUserId(userId),
+		() => getAllByUserId(userId),
 		[`all-tests-${userId}`],
 		{ revalidate: 60 * 10 }
 	);
@@ -96,10 +93,7 @@ export const createTest = async (
 	data: Omit<Prisma.TestCreateInput, 'user'> & { userId: string }
 ): Promise<Test> => {
 	const newTest = await createOne(data);
-	revalidateTag(`test-${newTest.id}`);
-	revalidateTag(`all-tests-${data.userId}`);
-	// this is the only one having an effect - investigate
-	revalidatePath('/dashboard');
+	handleRevalidateCache(data.userId);
 	return newTest;
 };
 
@@ -117,8 +111,25 @@ export const createTest = async (
 export const deleteTest = async (id: string): Promise<void> => {
 	const userId = await getUserId();
 	await deleteOne(id);
-	revalidateTag(`test-${id}`);
+	handleRevalidateCache(userId, id);
+};
+
+export const deleteTests = async (ids: string[]): Promise<void> => {
+	const userId = await getUserId();
+	await deleteMany(ids);
+	handleRevalidateCache(userId, undefined, ids);
+};
+
+export const handleRevalidateCache = async (
+	userId?: string,
+	testId?: string,
+	testIds?: string[]
+) => {
+	userId = userId || (await getUserId());
 	revalidateTag(`all-tests-${userId}`);
+	testId && revalidateTag(`test-${testId}`);
+	testIds && testIds.forEach((id) => revalidateTag(`test-${id}`));
+	revalidatePath('/dashboard');
 };
 
 // public async updateTestResults(

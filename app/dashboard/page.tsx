@@ -1,11 +1,9 @@
 'use server';
 
-import TestTable from './components/table';
+import TestTable from '../components/table/table';
 
 const Dashboard = () => {
-  return (
-    <TestTable />
-  );
-}
+	return <TestTable />;
+};
 
 export default Dashboard;

@@ -1,30 +1,27 @@
 'use server';
 
-import { Prisma, Test, Step, Result } from '@prisma/client';
+import { Prisma, Test } from '@prisma/client';
 import { prisma as prismaClient } from 'db/db.adapter';
-import { ResultArg } from '@prisma/client/runtime/library';
+import { TestWithSteps } from 'app/providers/testProvider';
 
-type TestWithSteps = Test & { steps: Step[] };
-
-export const getById = async (id: string): Promise<TestWithSteps | null> => {
+export const getById = (id: string): Promise<TestWithSteps | null> => {
 	return prismaClient.test.findUnique({
 		where: { id },
 		include: {
 			steps: {
 				orderBy: { order: 'asc' },
+				include: { results: true },
 			},
 		},
 	});
 };
 
-export const getAllByUserId = async (
-	userId: string
-): Promise<TestWithSteps[]> => {
+export const getAllByUserId = (userId: string): Promise<TestWithSteps[]> => {
 	console.log('TEST REPO - GET ALL BY USER ID');
 	try {
 		return prismaClient.test.findMany({
 			where: { user: { id: userId } },
-			include: { steps: true },
+			include: { steps: { include: { results: true } } },
 		});
 	} catch (error) {
 		console.error('Error getting tests by user ID:', error);
@@ -32,9 +29,9 @@ export const getAllByUserId = async (
 	}
 };
 
-export const createOne = async (
+export const createOne = (
 	data: Omit<Prisma.TestCreateInput, 'user'> & { userId: string }
-): Promise<TestWithSteps> => {
+): Promise<Test> => {
 	const { userId, ...testData } = data;
 	return prismaClient.test.create({
 		data: {
@@ -56,11 +53,26 @@ export const createOne = async (
 // 	});
 // },
 
-export const deleteOne = async (id: string): Promise<TestWithSteps> => {
+export const deleteOne = (id: string): Promise<TestWithSteps> => {
+	console.log('TEST REPO - DELETE ONE', id);
 	return prismaClient.test.delete({
 		where: { id },
-		include: { steps: true },
+		include: { steps: { include: { results: true } } },
 	});
+};
+
+export const deleteMany = (ids: string[]): Promise<{ count: number }[]> => {
+	console.log('TEST REPO - DELETE MANY');
+	const deleteSteps = prismaClient.step.deleteMany({
+		where: { testId: { in: ids } },
+	});
+	const deleteResults = prismaClient.result.deleteMany({
+		where: { step: { testId: { in: ids } } },
+	});
+	const deleteTests = prismaClient.test.deleteMany({
+		where: { id: { in: ids } },
+	});
+	return prismaClient.$transaction([deleteSteps, deleteResults, deleteTests]);
 };
 
 // async getLatestResultsForTest(testId: string): Promise<Result[]> {

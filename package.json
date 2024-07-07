@@ -7,7 +7,9 @@
 		"dev:serverInspect": "cross-env NODE_OPTIONS='--inspect' next dev",
 		"build": "prisma generate && next build",
 		"start": "next start",
-		"lint": "next lint",
+		"lint": "next lint && npx stylelint **/*.css --fix",
+		"format": "prettier . --check",
+		"format:write": "prettier . --write",
 		"vercel:build:dev": "npx dotenv -e .env.local -- npx prisma generate && prisma migrate deploy && next build",
 		"prisma:migrate:deploy": "npx dotenv -e .env.local -- npx prisma migrate deploy",
 		"prisma:db:push": "npx dotenv -e .env.local -- npx prisma db push",
@@ -15,7 +17,8 @@
 		"prisma:introspect": "npx dotenv -e .env.local -- npx prisma db pull",
 		"prisma:generate": "npx dotenv -e .env.local -- npx prisma generate",
 		"vercel:deploy": "npx vercel deploy",
-		"vercel:env:pull": "vercel env pull .env.local"
+		"vercel:env:pull": "vercel env pull .env.local",
+		"prepare": "husky"
 	},
 	"prisma": {
 		"schema": "./db/prisma/schema.prisma"
@@ -41,15 +44,24 @@
 		"@types/node": "^20",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
+		"@typescript-eslint/eslint-plugin": "^7.15.0",
+		"@typescript-eslint/parser": "^7.15.0",
 		"cross-env": "^7.0.3",
 		"dotenv-cli": "^7.4.2",
 		"eslint": "^8.57.0",
 		"eslint-config-next": "^14.2.4",
 		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-import": "^2.29.1",
+		"eslint-plugin-jsx-a11y": "^6.9.0",
+		"eslint-plugin-postcss-modules": "^2.0.0",
+		"husky": "^9.0.11",
 		"postcss": "^8.4.39",
 		"postcss-preset-mantine": "^1.15.0",
 		"postcss-simple-vars": "^7.0.1",
 		"prisma": "^5.15.1",
+		"stylelint": "^16.6.1",
+		"stylelint-config-css-modules": "^4.4.0",
+		"stylelint-config-standard": "^36.0.1",
 		"typescript": "^5.5.2"
 	}
 }

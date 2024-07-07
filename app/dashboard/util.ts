@@ -1,6 +1,6 @@
 import { keys } from '@mantine/core';
 import { Test } from '@prisma/client';
-import { StringTypedTest } from './components/table';
+import { StringTypedTest } from '../components/table/table';
 
 function filterData(data: StringTypedTest[], search: string) {
 	const query = search.toLowerCase().trim();
