@@ -11,7 +11,7 @@ import classes from './testEntry.module.css';
 import segmentedControlClasses from './segmentedControl.module.css';
 import { TestType } from '@prisma/client';
 import { useState } from 'react';
-import { useTest } from 'app/providers/testProvider';
+import { useTest } from 'app/contexts/test';
 
 const TestEntry = () => {
 	const [testType, setTestType] = useState('Web');

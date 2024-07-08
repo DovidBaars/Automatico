@@ -2,7 +2,7 @@
 
 import { Prisma, Test } from '@prisma/client';
 import { prisma as prismaClient } from 'db/db.adapter';
-import { TestWithSteps } from 'app/providers/testProvider';
+import { TestWithSteps } from 'app/providers/test';
 
 export const getById = (id: string): Promise<TestWithSteps | null> => {
 	return prismaClient.test.findUnique({

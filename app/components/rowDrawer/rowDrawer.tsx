@@ -1,6 +1,6 @@
 import React from 'react';
 import { Drawer, Stack, Text, Button } from '@mantine/core';
-import { TestWithSteps } from 'app/providers/testProvider';
+import { TestWithSteps } from 'app/providers/test';
 
 interface StepsDrawerProps {
 	opened: boolean;

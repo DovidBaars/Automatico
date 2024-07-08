@@ -6,7 +6,6 @@ import {
 	ActionIcon,
 	Text,
 	HoverCard,
-	Transition,
 } from '@mantine/core';
 import {
 	IconPlayerPlay,
@@ -15,7 +14,7 @@ import {
 	IconDotsVertical,
 } from '@tabler/icons-react';
 import classes from './tableRows.module.css';
-import { TestWithSteps } from 'app/providers/testProvider';
+import { TestWithSteps } from 'app/providers/test';
 import cx from 'clsx';
 import RowDrawer from '../rowDrawer/rowDrawer';
 import ExpandedRow from './expandedRow';
@@ -23,7 +22,7 @@ import ExpandedRow from './expandedRow';
 interface RowProps {
 	batchSelection: string[];
 	toggleRow: (id: string) => void;
-	handleRowClick: (row: TestWithSteps) => void;
+	handleRowClick: (rowID: TestWithSteps['id']) => void;
 	onRunTest: (id: string) => void;
 	onDeleteTest: (id: string) => void;
 	currentTest: TestWithSteps | null;
@@ -49,7 +48,7 @@ const TableRows: React.FC<RowProps> = ({
 						{ [classes.rowSelected]: currentTest?.id === row.id },
 						classes.clickableRow
 					)}
-					onClick={() => handleRowClick(row)}
+					onClick={() => handleRowClick(row.id)}
 				>
 					<RowDrawer
 						opened={drawerOpened}
@@ -62,7 +61,7 @@ const TableRows: React.FC<RowProps> = ({
 							onChange={() => toggleRow(row.id)}
 						/>
 					</Table.Td>
-					<Table.Td>{row.id}</Table.Td>
+					<Table.Td>{row.baseUrl}</Table.Td>
 					<Table.Td>{row.name}</Table.Td>
 					<Table.Td>
 						<Group gap="xs" justify="flex-end">
@@ -115,17 +114,11 @@ const TableRows: React.FC<RowProps> = ({
 						</Group>
 					</Table.Td>
 				</Table.Tr>
-				{currentTest?.id === row.id && (
-					<Transition
-						mounted={currentTest?.id === row.id}
-						transition={'skew-down'}
-						timingFunction="ease"
-					>
-						{(styles) => (
-							<ExpandedRow transitionStyles={styles} test={row} colSpan={4} />
-						)}
-					</Transition>
-				)}
+				<ExpandedRow
+					expanded={currentTest?.id === row.id}
+					test={row}
+					colSpan={4}
+				/>
 			</React.Fragment>
 		))
 	) : (

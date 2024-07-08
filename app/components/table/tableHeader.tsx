@@ -1,5 +1,5 @@
 import { Table, Checkbox } from '@mantine/core';
-import { TestWithSteps } from 'app/providers/testProvider';
+import { TestWithSteps } from 'app/providers/test';
 
 interface ITableHeader {
 	toggleAll: () => void;
@@ -15,7 +15,7 @@ const TableHeader = ({
 	return (
 		<Table.Thead>
 			<Table.Tr>
-				<Table.Th w={'sm'}>
+				<Table.Th>
 					<Checkbox
 						onChange={toggleAll}
 						checked={batchSelection.length === userTests.length}
@@ -25,8 +25,8 @@ const TableHeader = ({
 						}
 					/>
 				</Table.Th>
+				<Table.Th>URL</Table.Th>
 				<Table.Th>Name</Table.Th>
-				<Table.Th>Status</Table.Th>
 				<Table.Th>Actions</Table.Th>
 			</Table.Tr>
 		</Table.Thead>

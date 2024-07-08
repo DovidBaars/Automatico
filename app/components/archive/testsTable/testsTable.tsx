@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import styles from './testsTable.module.css';
 import { Test } from '@prisma/client';
-import { deleteTest, runTest } from '@/services/testService';
+import { deleteTest, runTest } from '@/services/test';
 
 const TestsTable = ({ tests }: { tests: Test[] }) => {
 	return (

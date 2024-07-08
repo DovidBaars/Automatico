@@ -1,17 +1,19 @@
 'use server';
 
-import { unstable_cache, revalidateTag, revalidatePath } from 'next/cache';
+import { unstable_cache } from 'next/cache';
 import { Prisma, Test } from '@prisma/client';
-import { getUserId } from './authService';
+import { getUserId } from './auth';
 import {
 	getAllByUserId,
 	deleteOne,
 	createOne,
 	getById,
 	deleteMany,
-} from '@/repositories/testRepository';
-import { authPost } from './authFetchService';
-import { TestWithSteps } from 'app/providers/testProvider';
+} from '@/repositories/test';
+import { authPost } from './fetch';
+import { TestWithSteps } from 'app/providers/test';
+import { handleRevalidateCache } from './cache';
+import { STRINGS } from '@/constants/app';
 
 interface TestResult {
 	status: 'success' | 'failure';
@@ -93,7 +95,12 @@ export const createTest = async (
 	data: Omit<Prisma.TestCreateInput, 'user'> & { userId: string }
 ): Promise<Test> => {
 	const newTest = await createOne(data);
-	handleRevalidateCache(data.userId);
+	handleRevalidateCache(
+		data.userId,
+		undefined,
+		undefined,
+		STRINGS.PAGES.DASHBOARD.PATH
+	);
 	return newTest;
 };
 
@@ -111,25 +118,13 @@ export const createTest = async (
 export const deleteTest = async (id: string): Promise<void> => {
 	const userId = await getUserId();
 	await deleteOne(id);
-	handleRevalidateCache(userId, id);
+	handleRevalidateCache(userId, id, undefined, STRINGS.PAGES.DASHBOARD.PATH);
 };
 
 export const deleteTests = async (ids: string[]): Promise<void> => {
 	const userId = await getUserId();
 	await deleteMany(ids);
-	handleRevalidateCache(userId, undefined, ids);
-};
-
-export const handleRevalidateCache = async (
-	userId?: string,
-	testId?: string,
-	testIds?: string[]
-) => {
-	userId = userId || (await getUserId());
-	revalidateTag(`all-tests-${userId}`);
-	testId && revalidateTag(`test-${testId}`);
-	testIds && testIds.forEach((id) => revalidateTag(`test-${id}`));
-	revalidatePath('/dashboard');
+	handleRevalidateCache(userId, undefined, ids, STRINGS.PAGES.DASHBOARD.PATH);
 };
 
 // public async updateTestResults(

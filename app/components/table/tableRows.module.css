@@ -1,6 +1,5 @@
 .rowSelected {
 	background-color: var(--mantine-color-violet-9);
-	border-left: 4px solid var(--mantine-color-blue-6);
 }
 
 .rowSelected:hover {

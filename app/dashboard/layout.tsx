@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppShellAside, AppShellMain } from '@mantine/core';
-import { TestProvider } from 'app/providers/testProvider';
+import { TestWithStepProvider } from 'app/providers/test';
 import { AsideBar } from '@/components/asideBar/asideBar';
 
 type DashboardLayoutProps = {
@@ -9,12 +9,12 @@ type DashboardLayoutProps = {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 	return (
-		<TestProvider>
+		<TestWithStepProvider>
 			<AppShellAside>
 				<AsideBar />
 			</AppShellAside>
 			<AppShellMain>{children}</AppShellMain>
-		</TestProvider>
+		</TestWithStepProvider>
 	);
 };
 

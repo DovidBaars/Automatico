@@ -1,7 +1,7 @@
 'use server';
 
 import { SignOutButton, SignInButton } from '@/components/auth';
-import { getUserName } from './services/authService';
+import { getUserName } from './services/auth';
 import { AppShellMain } from '@mantine/core';
 
 const Home = async () => {

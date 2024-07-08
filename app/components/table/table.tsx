@@ -9,12 +9,13 @@ import {
 	useMantineTheme,
 } from '@mantine/core';
 import { Test } from '@prisma/client';
-import { deleteTest, deleteTests, runTest } from '@/services/testService';
+import { deleteTest, deleteTests, runTest } from '@/services/test';
 import { filterData } from '../../dashboard/util';
-import { TestWithSteps, useTest } from 'app/providers/testProvider';
+import { TestWithSteps } from 'app/providers/test';
 import TableRows from './tableRows';
 import TableHeader from './tableHeader';
 import SearchBar from './searchBar';
+import { useTest } from 'app/contexts/test';
 
 export default function TestTable() {
 	const [batchSelection, setBatchSelection] = useState<Test['id'][]>([]);
@@ -64,8 +65,12 @@ export default function TestTable() {
 		setSearch(value);
 	};
 
-	const handleRowClick = (row: TestWithSteps) => {
-		const test: TestWithSteps = userTests.find((test) => test.id === row.id)!;
+	const handleRowClick = (rowId: TestWithSteps['id']) => {
+		if (currentTest?.id === rowId) {
+			setCurrentTest(null);
+			return;
+		}
+		const test: TestWithSteps = userTests.find((test) => test.id === rowId)!;
 		setCurrentTest(test);
 	};
 
@@ -76,7 +81,7 @@ export default function TestTable() {
 
 	return (
 		<Stack bg={theme.colors.dark[9]} gap={'xs'}>
-			<TableScrollContainer p="0" m="0" minWidth={undefined}>
+			<TableScrollContainer p="0" m="0" minWidth={theme.breakpoints.md}>
 				<LoadingOverlay visible={loading} />
 				<Table withColumnBorders withTableBorder>
 					<SearchBar

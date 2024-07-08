@@ -1,6 +1,6 @@
 'use server';
 
-import { getUserToken } from './authService';
+import { getUserToken } from './auth';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
