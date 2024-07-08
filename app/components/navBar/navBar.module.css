@@ -6,72 +6,26 @@
 	);
 	background-size: cover;
 	border-radius: var(--mantine-radius-md);
-	color: var(--mantine-color-dark-9);
 	box-shadow: var(--mantine-shadow-lg);
 	height: 100%;
-	transition: width 0.3s ease;
-	overflow: hidden;
-	position: relative;
-}
+	padding: 7px;
+	color: var(--mantine-color-bright);
+	transition: color 0.3s ease;
 
-.expanded {
-	width: rem(180px);
-	padding: var(--mantine-spacing-md);
-}
-
-.collapsed {
-	width: rem(10px);
-	padding: 0;
-}
-
-.content {
-	position: relative;
-	z-index: 1;
+	@mixin hover {
+		color: var(--mantine-color-dark-9);
+	}
 }
 
 .glowingLine {
-	position: absolute;
-	left: rem(2px);
-	top: 10%;
-	width: rem(2px);
-	height: 80%;
-	background-color: white;
+	border: 2px solid white;
+	height: 100%;
 	box-shadow: 0 0 rem(10px) rem(2px) rgb(255 255 255 / 70%);
 	border-radius: var(--mantine-radius-md);
 	transition: box-shadow 0.3s ease;
-}
-
-.glowingLine.dimmed {
-	box-shadow: 0 0 rem(5px) rem(1px) rgb(255 255 255 / 30%);
-}
-
-.divider {
-	margin-left: calc(var(--mantine-spacing-md) * -1);
-	margin-right: calc(var(--mantine-spacing-md) * -1);
-}
-
-.header {
-	color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-}
-
-.links {
-	padding-top: var(--mantine-spacing-md);
-	padding-bottom: var(--mantine-spacing-md);
-}
-
-.link {
-	font-weight: 500;
-	display: block;
-	width: 100%;
-	padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
-	color: var(--mantine-color-text);
-	font-size: var(--mantine-font-size-sm);
+	padding: var(--mantine-spacing-xs);
 
 	@mixin hover {
-		background-color: light-dark(
-			var(--mantine-color-gray-0),
-			var(--mantine-color-dark-7)
-		);
-		color: light-dark(var(--mantine-color-black), var(--mantine-color-black-0));
+		box-shadow: 0 0 rem(5px) rem(1px) rgb(255 255 255 / 30%);
 	}
 }

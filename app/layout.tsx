@@ -47,7 +47,7 @@ export default function RootLayout({
 				<MantineProvider theme={theme} defaultColorScheme="dark">
 					<AppShell
 						navbar={{
-							width: rem(10),
+							width: rem(200),
 							breakpoint: 'sm',
 						}}
 						aside={{
