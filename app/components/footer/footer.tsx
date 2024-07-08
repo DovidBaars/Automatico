@@ -11,7 +11,7 @@ export function Footer() {
 	return (
 		<Flex direction={'row'} h="100%" w={width}>
 			{/* <TestInfoPanel width={width * 0.3} /> */}
-			<StepEntry width={width * 0.7} />
+			{/* <StepEntry width={width * 0.7} /> */}
 		</Flex>
 	);
 }
