@@ -7,7 +7,7 @@ import {
 	MantineProvider,
 	rem,
 } from '@mantine/core';
-import { ASIDE_WIDTH, FOOTER_HEIGHT, STRINGS } from './constants/app';
+import { ASIDE_WIDTH, STRINGS } from './constants/app';
 
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
@@ -54,7 +54,6 @@ export default function RootLayout({
 							width: rem(ASIDE_WIDTH),
 							breakpoint: 'sm',
 						}}
-						footer={{ height: rem(FOOTER_HEIGHT) }}
 					>
 						<AppShellNavbar>
 							<NavBar />

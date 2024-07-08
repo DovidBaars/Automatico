@@ -13,7 +13,7 @@ import { TestType } from '@prisma/client';
 import { useState } from 'react';
 import { useTest } from 'app/providers/testProvider';
 
-const TestEntry = ({ height }: { height: number }) => {
+const TestEntry = () => {
 	const [testType, setTestType] = useState('Web');
 	const [testName, setTestName] = useState('');
 	const [testDescription, setTestDescription] = useState('');
@@ -32,7 +32,7 @@ const TestEntry = ({ height }: { height: number }) => {
 	};
 
 	return (
-		<Flex direction="column" p="sm" className={classes.testEntry} h={height}>
+		<Flex direction="column" p="sm" className={classes.testEntry}>
 			<SegmentedControl
 				fullWidth
 				radius="xl"
@@ -43,7 +43,7 @@ const TestEntry = ({ height }: { height: number }) => {
 				value={testType}
 				onChange={setTestType}
 			/>
-			<Box className={classes.inputBox} h="100%" mb="sm">
+			<Box className={classes.inputBox} mb="sm">
 				<Text size="lg" className={classes.title}>
 					{testType}
 				</Text>

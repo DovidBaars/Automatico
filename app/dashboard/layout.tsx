@@ -1,6 +1,5 @@
 import React from 'react';
-import { AppShellAside, AppShellFooter, AppShellMain } from '@mantine/core';
-import { Footer } from '@/components/footer/footer';
+import { AppShellAside, AppShellMain } from '@mantine/core';
 import { TestProvider } from 'app/providers/testProvider';
 import { AsideBar } from '@/components/asideBar/asideBar';
 
@@ -15,9 +14,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 				<AsideBar />
 			</AppShellAside>
 			<AppShellMain>{children}</AppShellMain>
-			<AppShellFooter>
-				<Footer />
-			</AppShellFooter>
 		</TestProvider>
 	);
 };
