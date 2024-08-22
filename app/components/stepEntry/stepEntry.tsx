@@ -5,7 +5,7 @@ import { IconPlus } from '@tabler/icons-react';
 import { useState } from 'react';
 import classes from './stepEntry.module.css';
 import { useTest } from 'app/contexts/test';
-import { $Enums } from '@prisma/client';
+import { $Enums, Prisma } from '@prisma/client';
 
 const StepEntry = () => {
 	const [type, setType] = useState<$Enums.StepType>($Enums.StepType.INPUT);
@@ -19,14 +19,15 @@ const StepEntry = () => {
 			console.error('No test selected');
 			return;
 		}
-		const stepData = {
-			type,
-			xpath,
-			userInput,
-			description,
-			order: 1,
-			testId: currentTest.id,
-		};
+		const stepData: Omit<Prisma.StepCreateInput, 'test'> & { testId: string } =
+			{
+				type,
+				xpath,
+				userInput,
+				description,
+				testId: currentTest.id,
+				order: 0,
+			};
 		await handleCreateStep(stepData);
 		setXpath('');
 		setUserInput('');
