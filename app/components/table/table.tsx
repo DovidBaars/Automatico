@@ -37,7 +37,8 @@ export default function TestTable() {
 	};
 
 	const handleRun = async (id: string) => {
-		await runTest(id);
+		const result = await runTest(id);
+		alert('\u2705 ' + result.message);
 	};
 
 	const handleBatchDelete = async () => {
