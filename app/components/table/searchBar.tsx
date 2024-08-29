@@ -1,5 +1,10 @@
 import { Table, TextInput, rem, Tooltip, Button, Flex } from '@mantine/core';
-import { IconSearch, IconReload, IconTrash } from '@tabler/icons-react';
+import {
+	IconSearch,
+	IconReload,
+	IconTrash,
+	IconPlayerTrackNext,
+} from '@tabler/icons-react';
 
 interface ISearchBar {
 	search: string;
@@ -7,6 +12,7 @@ interface ISearchBar {
 	handleReload: () => void;
 	handleBatchDelete: () => void;
 	batchSelection: boolean;
+	handleBatchRun: () => void;
 }
 
 const SearchBar = ({
@@ -15,6 +21,7 @@ const SearchBar = ({
 	handleReload,
 	handleBatchDelete,
 	batchSelection,
+	handleBatchRun,
 }: ISearchBar) => {
 	return (
 		<Table.Thead>
@@ -33,7 +40,17 @@ const SearchBar = ({
 							onChange={handleSearchChange}
 							style={{ flex: 1 }}
 						/>
-
+						<Tooltip label="Run batch tests">
+							<Button
+								onClick={handleBatchRun}
+								variant="light"
+								disabled={!batchSelection}
+							>
+								<IconPlayerTrackNext
+									style={{ width: rem(16), height: rem(16) }}
+								/>
+							</Button>
+						</Tooltip>
 						<Tooltip label="Reload tests">
 							<Button onClick={handleReload} variant="light">
 								<IconReload style={{ width: rem(16), height: rem(16) }} />

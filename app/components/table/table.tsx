@@ -37,8 +37,14 @@ export default function TestTable() {
 	};
 
 	const handleRun = async (id: string) => {
-		const result = await runTest(id);
-		alert('\u2705 ' + result.message);
+		const { status, message } = await runTest(id);
+		alert(
+			userTests.find((item) => item.id === id)?.name +
+				' ' +
+				(status === 'success' ? '\u2705 ' : '\u274C') +
+				'\n' +
+				message
+		);
 	};
 
 	const handleBatchDelete = async () => {
@@ -80,6 +86,26 @@ export default function TestTable() {
 		handleReload();
 	};
 
+	const handleBatchRun = async () => {
+		const result = [];
+		for (const id of batchSelection) {
+			const { status, message } = await runTest(id);
+			result.push({
+				status,
+				message,
+				name: userTests.find((item) => item.id === id)?.name,
+			});
+		}
+		alert(
+			result
+				.map(
+					(item) =>
+						`${item.name} ${item.status === 'success' ? '\u2705' : '\u274C'} ${item.message}`
+				)
+				.join('\n\n')
+		);
+	};
+
 	return (
 		<Stack bg={theme.colors.dark[9]} gap={'xs'}>
 			<TableScrollContainer p="0" m="0" minWidth={theme.breakpoints.md}>
@@ -91,6 +117,7 @@ export default function TestTable() {
 						handleReload={handleReload}
 						handleBatchDelete={handleBatchDelete}
 						batchSelection={batchSelection.length > 0}
+						handleBatchRun={handleBatchRun}
 					/>
 					<TableHeader
 						toggleAll={toggleAll}
