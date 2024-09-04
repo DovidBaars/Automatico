@@ -18,6 +18,7 @@ import { STRINGS } from '@/constants/app';
 interface TestResult {
 	status: 'success' | 'failure';
 	message: string;
+	testId: string;
 }
 
 export const runTest = async (
@@ -40,11 +41,52 @@ export const runTest = async (
 		console.error('Error running test:', error);
 		if (error instanceof Error) {
 			if (error.name === 'AbortError') {
-				return { status: 'failure', message: 'Test run cancelled' };
+				return { status: 'failure', message: 'Test run cancelled', testId };
 			}
-			return { status: 'failure', message: error.message };
+			return { status: 'failure', message: error.message, testId };
 		}
-		return { status: 'failure', message: 'An unexpected error occurred' };
+		return {
+			status: 'failure',
+			message: 'An unexpected error occurred',
+			testId,
+		};
+	}
+};
+
+export const runMultipleTests = async (
+	testIds: string[],
+	signal?: AbortSignal
+): Promise<TestResult[]> => {
+	try {
+		const response = await authPost(
+			`http://127.0.0.1:8000/tests/run_multiple`, // Assuming your backend endpoint is /tests/run_multiple
+			JSON.stringify(testIds),
+			{ signal }
+		);
+		const data = await response.json();
+		console.log('Multiple tests run result:', data);
+		return data;
+	} catch (error) {
+		console.error('Error running multiple tests:', error);
+		if (error instanceof Error) {
+			if (error.name === 'AbortError') {
+				return testIds.map((testId) => ({
+					testId,
+					status: 'failure',
+					message: 'Test run cancelled',
+				}));
+			}
+			return testIds.map((testId) => ({
+				testId,
+				status: 'failure',
+				message: error.message,
+			}));
+		}
+		return testIds.map((testId) => ({
+			testId,
+			status: 'failure',
+			message: 'An unexpected error occurred',
+		}));
 	}
 };
 

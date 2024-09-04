@@ -9,7 +9,12 @@ import {
 	useMantineTheme,
 } from '@mantine/core';
 import { Test } from '@prisma/client';
-import { deleteTest, deleteTests, runTest } from '@/services/test';
+import {
+	deleteTest,
+	deleteTests,
+	runMultipleTests,
+	runTest,
+} from '@/services/test';
 import { filterData } from '../../dashboard/util';
 import { TestWithSteps } from 'app/providers/test';
 import TableRows from './tableRows';
@@ -87,20 +92,12 @@ export default function TestTable() {
 	};
 
 	const handleBatchRun = async () => {
-		const result = [];
-		for (const id of batchSelection) {
-			const { status, message } = await runTest(id);
-			result.push({
-				status,
-				message,
-				name: userTests.find((item) => item.id === id)?.name,
-			});
-		}
+		const result = await runMultipleTests(batchSelection);
 		alert(
 			result
 				.map(
 					(item) =>
-						`${item.name} ${item.status === 'success' ? '\u2705' : '\u274C'} ${item.message}`
+						`${userTests.find((test) => test.id === item.testId)?.name} ${item.status === 'success' ? '\u2705' : '\u274C'} ${item.message}`
 				)
 				.join('\n\n')
 		);
