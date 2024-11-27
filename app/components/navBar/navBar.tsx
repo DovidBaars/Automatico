@@ -36,25 +36,29 @@ export function NavBar() {
 							<ThemeIcon variant="light" size={30}>
 								<IconHome2 style={{ width: rem(18), height: rem(18) }} />
 							</ThemeIcon>
-							<Text fw="bold">{STRINGS.PAGES.HOME.NAME}</Text>
+							<Text fw="bold" className={classes.directoryText}>
+								{STRINGS.PAGES.HOME.NAME}
+							</Text>
 						</Group>
 					</UnstyledButton>
 
 					<Divider my="sm" />
 
-					<Group>
-						<UnstyledButton
-							component={Link}
-							href={STRINGS.PAGES.DASHBOARD.PATH as Route}
-						>
-							<Group>
-								<ThemeIcon variant="light" size={30}>
-									<IconGauge style={{ width: rem(18), height: rem(18) }} />
-								</ThemeIcon>
-								<Text fw="bold">{STRINGS.PAGES.DASHBOARD.NAME}</Text>
-							</Group>
-						</UnstyledButton>
-					</Group>
+					{/* <Group> */}
+					<UnstyledButton
+						component={Link}
+						href={STRINGS.PAGES.DASHBOARD.PATH as Route}
+					>
+						<Group>
+							<ThemeIcon variant="light" size={30}>
+								<IconGauge style={{ width: rem(18), height: rem(18) }} />
+							</ThemeIcon>
+							<Text fw="bold" className={classes.directoryText}>
+								{STRINGS.PAGES.DASHBOARD.NAME}
+							</Text>
+						</Group>
+					</UnstyledButton>
+					{/* </Group> */}
 
 					<Divider my="sm" />
 				</Flex>
