@@ -4,6 +4,8 @@ This is a testing platform for running tests on the web. It allows users to crea
 
 The test runner is an external service. The application sends the test data to the test runner, which runs the tests and sends the results back to the application.
 
+The app is hosted here: https://automatico-app.vercel.app/
+
 # Running locally
 
 1. Install dependencies. Run `npm install` in the root directory.
@@ -27,3 +29,4 @@ Open http://localhost:3000/ in a browser to view the application.
 # Authentication
 
 - NextAuth.js with Google OAuth provider. https://next-auth.js.org/
+- Access logs are saved to the database.

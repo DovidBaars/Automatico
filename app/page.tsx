@@ -10,9 +10,27 @@ const Home = async () => {
 		<AppShellMain>
 			<div>
 				<h1>Home Screen</h1>
+				<h2>
+					<a href="https://github.com/DovidBaars/Automatico">
+						Application Github
+					</a>
+				</h2>
+				<h2>
+					<a href="https://github.com/bennyscash1/PythonFullStackFlask">
+						Testing Github
+					</a>
+				</h2>
+				<h3>
+					Test any web page, mobile application, or API with the Automatico
+					testing tool. No technical skills needed.
+				</h3>
 				<p>Session: {userName}</p>
-				<SignOutButton />
-				<SignInButton />
+				<p>
+					<SignOutButton />
+				</p>
+				<p>
+					<SignInButton />
+				</p>
 			</div>
 		</AppShellMain>
 	);
