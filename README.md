@@ -20,7 +20,7 @@ Open http://localhost:3000/ in a browser to view the application.
 
 # DB
 
-- PostgreSQL.
+- PostgreSQL hosted on Vercel.
 - Managed by Prisma ORM.
 - Shared schema file in `prisma/schema.prisma`.
 
