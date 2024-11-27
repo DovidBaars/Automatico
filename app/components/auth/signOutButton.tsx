@@ -1,13 +1,15 @@
-import { signOutAction } from "./auth.actions"
+import { signOut } from 'auth/auth';
 
 const SignOutButton = () => {
-    return (
-        <form
-            action={signOutAction}
-        >
-            <button type="submit">Sign Out</button>
-        </form>
-    )
-}
+	const handleSignOut = async () => {
+		'use server';
+		await signOut();
+	};
+	return (
+		<form action={handleSignOut}>
+			<button type="submit">Sign Out</button>
+		</form>
+	);
+};
 
 export default SignOutButton;

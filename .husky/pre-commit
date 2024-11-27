@@ -1,0 +1,2 @@
+npm.cmd run format
+npm.cmd run lint

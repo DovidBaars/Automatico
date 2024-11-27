@@ -18,7 +18,5 @@ export const STRINGS = {
 	},
 };
 
-export const HOME_TESTS_TABLE = {
-	HEIGHT: '75%',
-	WIDTH: '87%',
-};
+export const FOOTER_HEIGHT = 200;
+export const ASIDE_WIDTH = 300;

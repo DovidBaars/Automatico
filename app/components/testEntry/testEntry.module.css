@@ -1,0 +1,30 @@
+.testEntry {
+	background: linear-gradient(
+		120deg,
+		var(--mantine-color-blue-9) 0%,
+		var(--mantine-color-green-9) 100%
+	);
+	border-radius: var(--mantine-radius-md);
+	color: var(--mantine-color-dark-9);
+	box-shadow: var(--mantine-shadow-lg);
+}
+
+.title {
+	margin-bottom: var(--mantine-spacing-md);
+	font-weight: 700;
+}
+
+.input {
+	margin-bottom: var(--mantine-spacing-sm);
+}
+
+.button {
+	margin-top: var(--mantine-spacing-md);
+	margin-bottom: var(--mantine-spacing-md);
+}
+
+.inputBox {
+	border-radius: var(--mantine-radius-md);
+	padding: var(--mantine-spacing-xs);
+	border: 2px solid var(--mantine-color-dark-9);
+}

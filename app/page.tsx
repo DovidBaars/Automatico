@@ -1,18 +1,21 @@
 'use server';
 
-import { auth } from '@/auth'
-import { SignOutButton, SignInButton } from "@/components/auth";
+import { SignOutButton, SignInButton } from '@/components/auth';
+import { getUserName } from './services/auth';
+import { AppShellMain } from '@mantine/core';
 
 const Home = async () => {
-    const authSession = await auth();
-    return (
-        <div>
-            <h1>Home Screen</h1>
-            <p>Session: {authSession?.user?.name}</p>
-            <SignOutButton />
-            <SignInButton />
-        </div>
-    )
-}
+	const userName = await getUserName();
+	return (
+		<AppShellMain>
+			<div>
+				<h1>Home Screen</h1>
+				<p>Session: {userName}</p>
+				<SignOutButton />
+				<SignInButton />
+			</div>
+		</AppShellMain>
+	);
+};
 
-export default Home
+export default Home;

@@ -1,13 +1,15 @@
-import { signInAction } from './auth.actions';
+import { signIn } from 'auth/auth';
 
 const SignInButton = () => {
-    return (
-        <form
-            action={signInAction}
-        >
-            <button type="submit">Sign In</button>
-        </form>
-    )
-}
+	const handleSignIn = async () => {
+		'use server';
+		await signIn();
+	};
+	return (
+		<form action={handleSignIn}>
+			<button type="submit">Sign In</button>
+		</form>
+	);
+};
 
-export default SignInButton
+export default SignInButton;

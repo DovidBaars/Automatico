@@ -1,30 +1,65 @@
 'use client';
 
-import Link from "next/link";
-import styles from "./navBar.module.css";
-import { usePathname } from 'next/navigation';
-import { STRINGS } from "@/constants/app";
-import { useCallback, useMemo } from "react";
+import {
+	Group,
+	Code,
+	rem,
+	Text,
+	UnstyledButton,
+	ThemeIcon,
+	Divider,
+	Flex,
+	Box,
+} from '@mantine/core';
+import { IconGauge, IconHome2 } from '@tabler/icons-react';
+import { AutomaticoLogo } from './logo';
+import classes from './navBar.module.css';
+import Link from 'next/link';
+import { Route } from 'next';
+import { STRINGS } from '@/constants/app';
 
-const Navbar = () => {
-  const pathname = usePathname()
+export function NavBar() {
+	return (
+		<Box className={classes.navbar}>
+			<Flex
+				direction={'column'}
+				justify={'space-between'}
+				className={classes.glowingLine}
+			>
+				<Flex direction={'column'}>
+					<UnstyledButton
+						component={Link}
+						href={STRINGS.PAGES.HOME.PATH as Route}
+					>
+						<Group>
+							<AutomaticoLogo style={{ width: rem(120) }} />
+							<ThemeIcon variant="light" size={30}>
+								<IconHome2 style={{ width: rem(18), height: rem(18) }} />
+							</ThemeIcon>
+							<Text fw="bold">{STRINGS.PAGES.HOME.NAME}</Text>
+						</Group>
+					</UnstyledButton>
 
-  const navBarPages = useMemo(() => (Object.values(STRINGS.PAGES)
-  ), [])
+					<Divider my="sm" />
 
-  const addActiveClass = useCallback((path: string) =>
-  (
-    `${styles.link} ${pathname === path ? styles.active : ''}`
-  ), [pathname]
-  );
+					<Group>
+						<UnstyledButton
+							component={Link}
+							href={STRINGS.PAGES.DASHBOARD.PATH as Route}
+						>
+							<Group>
+								<ThemeIcon variant="light" size={30}>
+									<IconGauge style={{ width: rem(18), height: rem(18) }} />
+								</ThemeIcon>
+								<Text fw="bold">{STRINGS.PAGES.DASHBOARD.NAME}</Text>
+							</Group>
+						</UnstyledButton>
+					</Group>
 
-  return (
-    <nav className={styles.navbar}>
-      {navBarPages.map(({ NAME, PATH }) => (
-        <Link key={PATH} className={addActiveClass(PATH)} href={PATH}>{NAME}</Link>
-      ))}
-    </nav>
-  );
-};
-
-export default Navbar;
+					<Divider my="sm" />
+				</Flex>
+				<Code fw={700}>v0.0.2</Code>
+			</Flex>
+		</Box>
+	);
+}

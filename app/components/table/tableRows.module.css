@@ -1,0 +1,16 @@
+.rowSelected {
+	background-color: var(--mantine-color-violet-9);
+}
+
+.rowSelected:hover {
+	background-color: var(--mantine-color-blue-2);
+}
+
+.clickableRow {
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.clickableRow:hover {
+	background-color: var(--mantine-color-violet-light);
+}

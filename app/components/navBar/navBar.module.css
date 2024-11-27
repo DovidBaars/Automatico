@@ -1,24 +1,31 @@
 .navbar {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    padding: 20px 0;
-    background-color: #202020;
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-  }
-  
-  .link {
-    color: #c0c0c0;
-    text-decoration: none;
-    font-weight: bold;
-  }
+	background: linear-gradient(
+		60deg,
+		var(--mantine-color-blue-9) 0%,
+		var(--mantine-color-green-9) 100%
+	);
+	background-size: cover;
+	border-radius: var(--mantine-radius-md);
+	box-shadow: var(--mantine-shadow-lg);
+	height: 100%;
+	padding: 7px;
+	color: var(--mantine-color-bright);
+	transition: color 0.3s ease;
 
-  .link:hover {
-    color: #b37cc4;
-  }
+	@mixin hover {
+		color: var(--mantine-color-dark-9);
+	}
+}
 
-  .active {
-    color: #b37cc4;
-    text-shadow: 0 0px .7px #b37cc4;
-    text-decoration: underline;
-  }
+.glowingLine {
+	border: 2px solid white;
+	height: 100%;
+	box-shadow: 0 0 rem(10px) rem(2px) rgb(255 255 255 / 70%);
+	border-radius: var(--mantine-radius-md);
+	transition: box-shadow 0.3s ease;
+	padding: var(--mantine-spacing-xs);
+
+	@mixin hover {
+		box-shadow: 0 0 rem(5px) rem(1px) rgb(255 255 255 / 30%);
+	}
+}

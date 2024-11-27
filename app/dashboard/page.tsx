@@ -1,26 +1,15 @@
-'use server';
+'use client';
 
-import styles from './page.module.css';
-import { STRINGS } from '@/constants/app';
-import { TestsTable, getTestData, Test } from '@/components/testsTable';
+import { Flex, useMantineTheme } from '@mantine/core';
+import TestTable from '../components/table/table';
 
-const getTestsTableTests = async () => {
-  let tests: Test[];
-  tests = await getTestData();
-  return tests;
-};
-
-const Dashboard = async () => {
-  const tests = await getTestsTableTests();
-  return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to {STRINGS.TITLE}</h1>
-        <p className={styles.description}>{STRINGS.DESCRIPTION} User: { }</p>
-      </main>
-      <TestsTable tests={tests} />
-    </div>
-  );
+const Dashboard = () => {
+	const theme = useMantineTheme();
+	return (
+		<Flex direction="column" h="100vh" p="0" bg={theme.colors.dark[9]}>
+			<TestTable />
+		</Flex>
+	);
 };
 
 export default Dashboard;

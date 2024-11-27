@@ -1,0 +1,22 @@
+{
+	"extends": ["stylelint-config-standard", "stylelint-config-css-modules"],
+	"rules": {
+		"color-no-invalid-hex": true,
+		"declaration-block-no-duplicate-properties": true,
+		"property-no-unknown": true,
+		"block-no-empty": true,
+		"selector-pseudo-class-no-unknown": true,
+		"selector-type-no-unknown": true,
+		"unit-no-unknown": true,
+		"no-empty-source": true,
+		"no-descending-specificity": true,
+		"at-rule-no-unknown": [
+			true,
+			{
+				"ignoreAtRules": ["mixin"]
+			}
+		],
+		"selector-class-pattern": null
+	},
+	"fix": true
+}
